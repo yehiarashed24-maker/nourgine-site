@@ -135,7 +135,7 @@ class="card youtube">
   </a>
 
   <!-- Discord -->
-  <a href="https://discord.gg/rqE5qbZ8V" target="_blank" class="card discord">
+  <a href="https://discord.gg/pAShKRHD" target="_blank" class="card discord">
     <div class="left">
       <i class="fa-brands fa-discord"></i>
       <div>
@@ -209,7 +209,33 @@ class="card youtube">
 
 </div>
 
-  <script src="script.js"></script>
+  <div id="chat-toggle">
+    <i class="fa-solid fa-robot"></i>
+</div>
 
+<div id="chat-popup" class="hidden">
+    <div class="ai-chat">
+<h3>
+    <i class="fa-solid fa-robot"></i>
+    Nourgine AI
+</h3>
+
+
+</div>
+        <div id="chat-box"></div>
+
+        <input
+            type="text"
+            id="user-input"
+            placeholder="Ask Nourgine AI..."
+        >
+
+        <button onclick="sendMessage()">
+            Send
+        </button>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
 </body>
 </html>

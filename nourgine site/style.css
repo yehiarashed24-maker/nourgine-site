@@ -9,13 +9,13 @@ body{
   min-height:100vh;
   display:flex;
   justify-content:center;
-  align-items:center;
-  padding:20px;
+  align-items:flex-start;
   overflow-y:auto;
   overflow-x:hidden;
   background:#07070d;
   color:white;
   position:relative;
+  padding:30px 16px;
 }
 
 /* Background */
@@ -43,8 +43,9 @@ body{
 /* Main Container */
 
 .container{
-  width:min(360px, 100%);
-  padding:30px;
+  width:100%;
+  max-width:420px;
+  padding:30px 24px;
   border-radius:30px;
   backdrop-filter:blur(20px);
   background:rgba(255,255,255,0.06);
@@ -52,6 +53,7 @@ body{
   box-shadow:0 0 40px rgba(140,0,255,0.3);
   position:relative;
   z-index:5;
+  margin:0 auto;
 }
 
 /* Profile */
@@ -205,10 +207,10 @@ body{
 /* FLOATING ICONS */
 
 .floating-icons i{
-  position:absolute;
+  position:fixed;
   color:rgba(255,255,255,0.08);
   z-index:1;
-
+  pointer-events:none;
   animation:float 8s ease-in-out infinite;
 }
 
@@ -321,7 +323,7 @@ body{
 
   position:relative;
 
-  font-size:42px;
+  font-size:clamp(28px, 8vw, 42px);
   font-weight:700;
 
   letter-spacing:3px;
@@ -415,12 +417,74 @@ body{
 @media (max-width:768px){
 
     body{
-        padding:12px;
         overflow-x:hidden;
+        padding:20px 12px;
+        align-items:flex-start;
     }
 
     .container{
-        width:min(100%, 360px);
+        padding:24px 18px;
+        border-radius:24px;
+    }
+
+    .profile-img{
+        width:100px;
+        height:100px;
+    }
+
+    .card{
+        padding:15px 16px;
+        font-size:15px;
+        border-radius:14px;
+    }
+
+    .card h3{
+        font-size:14px;
+    }
+
+    .links{
+        gap:12px;
+    }
+
+    .ps{
+        font-size:90px;
+        left:2px !important;
+        top:6% !important;
+    }
+
+    .marketing{
+        font-size:70px;
+        right:2px !important;
+        top:16% !important;
+    }
+
+    .ads{
+        font-size:55px;
+        left:2px !important;
+        bottom:20% !important;
+    }
+
+    .game{
+        font-size:75px;
+        right:2px !important;
+        bottom:10% !important;
+    }
+
+    .headset{
+        font-size:60px;
+        left:2px !important;
+        top:48% !important;
+    }
+
+    .trophy{
+        font-size:65px;
+        right:2px !important;
+        top:56% !important;
+    }
+
+    .background-glow{
+        width:400px;
+        height:400px;
     }
 }
 /* LOADER */
@@ -575,6 +639,62 @@ body{
     }
 
 }
+
+#chat-toggle{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+
+    width:65px;
+    height:65px;
+
+    border-radius:50%;
+    background:linear-gradient(135deg,#a855f7,#d946ef);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:28px;
+    color:white;
+
+    cursor:pointer;
+    z-index:9999;
+
+    box-shadow:0 0 25px #a855f7;
+}
+
+#chat-popup{
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+
+    width: 350px;
+    z-index: 9999;
+
+    backdrop-filter: blur(20px);
+    background: rgba(20,10,40,.95);
+    border: 1px solid rgba(168,85,247,.4);
+    border-radius: 25px;
+    box-shadow: 0 0 40px rgba(168,85,247,.4);
+}
+
+.hidden{
+    display:none;
+}
+.ai-subtitle{
+    text-align:center;
+    color:#c084fc;
+    font-size:13px;
+    margin-top:-5px;
+    margin-bottom:15px;
+    opacity:.8;
+}
+
+
+
+
+
 
 
 
