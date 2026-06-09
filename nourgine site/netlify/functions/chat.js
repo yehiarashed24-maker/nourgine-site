@@ -64,7 +64,7 @@ Instructions:
           "Content-Type": "application/json"
         },
      body: JSON.stringify({
-  model: "deepseek/deepseek-chat-v3-0324:free",
+  model: "mistralai/mistral-7b-instruct:free",
   messages: [
     {
       role: "system",
