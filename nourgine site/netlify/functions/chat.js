@@ -1,6 +1,25 @@
 exports.handler = async (event) => {
-try {
-    const { message } = JSON.parse(event.body);
+  try {
+    if (event.httpMethod !== "POST") {
+      return {
+        statusCode: 405,
+        body: JSON.stringify({
+          error: "Method not allowed"
+        })
+      };
+    }
+
+    const body = JSON.parse(event.body || "{}");
+    const message = body.message;
+
+    if (!message) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: "Message is required"
+        })
+      };
+    }
 
     const systemPrompt = `
 You are Nourgine AI, the official AI assistant of Nourgine.
@@ -26,26 +45,26 @@ Social Media:
 
 Instructions:
 - If someone asks who Nourgine is, explain that she is a gamer, streamer and content creator.
-- If someone asks what games Nourgine plays, mention the games listed above.
+- If someone asks what games Nourgine plays, mention the games above.
 - If someone asks when Nourgine streams, say she usually streams around 5 PM Cairo time.
 - If someone asks for social media accounts, provide the accounts above.
-- If you do not know a specific fact about Nourgine, say:
+- If you don't know something specific about Nourgine, say:
 "I don't have that information yet."
 
-- Answer in the same language used by the user.
-- Be friendly, helpful and concise.
+- Answer in the same language as the user.
+- Be friendly and concise.
 `;
 
     const response = await fetch(
-"https://openrouter.ai/api/v1/chat/completions",
-{
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
         method: "POST",
         headers: {
-    "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-    "Content-Type": "application/json"
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "meta-llama/llama-3.3-8b-instruct:free",
+          model: "google/gemma-3-27b-it:free",
           messages: [
             {
               role: "system",
@@ -62,20 +81,24 @@ Instructions:
 
     const data = await response.json();
 
+    console.log("OpenRouter Response:", JSON.stringify(data));
+
     return {
       statusCode: 200,
       body: JSON.stringify({
         reply:
-          data.choices?.[0]?.message?.content ||
+          data?.choices?.[0]?.message?.content ||
           "No response"
       })
     };
 
-  } catch (err) {
+  } catch (error) {
+    console.error(error);
+
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: err.message
+        error: error.message
       })
     };
   }
