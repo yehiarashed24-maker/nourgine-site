@@ -64,7 +64,7 @@ Instructions:
           "Content-Type": "application/json"
         },
      body: JSON.stringify({
-  model: "mistralai/mistral-7b-instruct:free",
+ model: "google/gemma-4-31b-it:free",
   messages: [
     {
       role: "system",
