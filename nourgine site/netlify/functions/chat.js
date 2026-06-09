@@ -63,19 +63,19 @@ Instructions:
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          model: "google/gemma-3-27b-it:free",
-          messages: [
-            {
-              role: "system",
-              content: systemPrompt
-            },
-            {
-              role: "user",
-              content: message
-            }
-          ]
-        })
+     body: JSON.stringify({
+  model: "deepseek/deepseek-chat-v3-0324:free",
+  messages: [
+    {
+      role: "system",
+      content: systemPrompt
+    },
+    {
+      role: "user",
+      content: message
+    }
+  ]
+})
       }
     );
 
