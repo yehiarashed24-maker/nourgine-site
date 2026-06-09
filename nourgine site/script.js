@@ -1,59 +1,75 @@
 // Mouse Glow Effect
-
 document.addEventListener("mousemove", (e) => {
+  const glow = document.querySelector(".background-glow");
 
-const glow = document.querySelector(".background-glow");
+  if (!glow) return;
 
-let x = e.clientX;
-let y = e.clientY;
-
-glow.style.left = x - 350 + "px";
-glow.style.top = y - 350 + "px";
-
+  glow.style.left = e.clientX - 350 + "px";
+  glow.style.top = e.clientY - 350 + "px";
 });
-window.addEventListener("load", ()=>{
 
-    setTimeout(()=>{
-
-        document.getElementById("loader").style.display="none";
-
-    },3500);
-
+// Loader
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const loader = document.getElementById("loader");
+    if (loader) loader.style.display = "none";
+  }, 3500);
 });
+
+// Chat Function
 async function sendMessage() {
+  const input = document.getElementById("user-input");
+  const chatBox = document.getElementById("chat-box");
 
-    const input = document.getElementById("user-input");
-    const chatBox = document.getElementById("chat-box");
+  const message = input.value.trim();
 
-    const message = input.value;
+  if (!message) return;
 
-    if(!message) return;
+  chatBox.innerHTML += `
+    <p><b>You:</b> ${message}</p>
+  `;
+
+  input.value = "";
+
+  try {
+    const response = await fetch("/.netlify/functions/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message
+      })
+    });
+
+    const data = await response.json();
+
+    console.log("SERVER RESPONSE:", data);
 
     chatBox.innerHTML += `
-        <p><b>You:</b> ${message}</p>
+      <p><b>Nourgine AI:</b> ${
+        data.reply || data.error || "No response"
+      }</p>
     `;
 
-    input.value = "";
+  } catch (error) {
 
-const response = await fetch("/.netlify/functions/chat", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        message: message
-    })
-});
+    console.error(error);
 
-const data = await response.json();
+    chatBox.innerHTML += `
+      <p><b>Error:</b> ${error.message}</p>
+    `;
+  }
 
-chatBox.innerHTML += `
-<p><b>Nourgine AI:</b> ${data.reply}</p>
-`;
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
+
+// Chat Toggle
 const toggle = document.getElementById("chat-toggle");
 const popup = document.getElementById("chat-popup");
 
-toggle.addEventListener("click", () => {
+if (toggle && popup) {
+  toggle.addEventListener("click", () => {
     popup.classList.toggle("hidden");
-});
+  });
+}
