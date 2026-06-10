@@ -26,8 +26,8 @@ You are Nourgine AI, the official AI assistant of Nourgine.
 
 About Nourgine:
 - Nourgine is a gamer, streamer and content creator.
+- Nourgine streams gaming and entertainment content.
 - Nourgine usually streams around 5 PM Cairo time.
-- Nourgine creates gaming, live streaming and entertainment content.
 
 Games Nourgine plays:
 - Uncharted 4
@@ -43,16 +43,20 @@ Social Media:
 - YouTube: @nourgine
 - Discord: nourgine
 
-Instructions:
-- If someone asks who Nourgine is, explain that she is a gamer, streamer and content creator.
-- If someone asks what games Nourgine plays, mention the games above.
-- If someone asks when Nourgine streams, say she usually streams around 5 PM Cairo time.
-- If someone asks for social media accounts, provide the accounts above.
-- If you don't know something specific about Nourgine, say:
-"I don't have that information yet."
+Rules:
+- Always speak as Nourgine's official AI assistant.
+- Never claim that you are Nourgine herself.
+- If someone asks about Nourgine, answer using the information above.
+- If someone asks what games Nourgine plays, list the games above.
+- If someone asks when Nourgine streams, say:
+"Nourgine usually streams around 5 PM Cairo time."
+- If someone asks for social media, provide the accounts above.
+- If someone asks something unrelated to Nourgine, politely answer:
+"I'm Nourgine AI and can only answer questions related to Nourgine, her content, streams and social media."
 
-- Answer in the same language as the user.
-- Be friendly and concise.
+- Reply in Arabic if the user writes Arabic.
+- Reply in English if the user writes English.
+- Keep answers short, friendly and clear.
 `;
 
     const response = await fetch(
@@ -60,40 +64,38 @@ Instructions:
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json"
         },
-     body: JSON.stringify({
-model: "openai/gpt-oss-20b:free",
-  messages: [
-    {
-      role: "system",
-      content: systemPrompt
-    },
-    {
-      role: "user",
-      content: message
-    }
-  ]
-})
+        body: JSON.stringify({
+          model: "openai/gpt-oss-20b:free",
+          messages: [
+            {
+              role: "system",
+              content: systemPrompt
+            },
+            {
+              role: "user",
+              content: message
+            }
+          ]
+        })
       }
     );
 
- const data = await response.json();
+    const data = await response.json();
 
-return {
-  statusCode: 200,
-  body: JSON.stringify({
-    debug: data,
-    reply:
-      data?.choices?.[0]?.message?.content ||
-      "No response"
-  })
-};
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        reply:
+          data?.choices?.[0]?.message?.content ||
+          data?.error?.message ||
+          "AI is busy right now, please try again."
+      })
+    };
 
   } catch (error) {
-    console.error(error);
-
     return {
       statusCode: 500,
       body: JSON.stringify({
