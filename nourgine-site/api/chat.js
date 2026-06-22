@@ -1,24 +1,17 @@
-exports.handler = async (event) => {
+export default async function handler(req, res) {
   try {
-    if (event.httpMethod !== "POST") {
-      return {
-        statusCode: 405,
-        body: JSON.stringify({
-          error: "Method not allowed"
-        })
-      };
+    if (req.method !== "POST") {
+      return res.status(405).json({
+        error: "Method not allowed"
+      });
     }
 
-    const body = JSON.parse(event.body || "{}");
-    const message = body.message;
+    const message = req.body?.message;
 
     if (!message) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          error: "Message is required"
-        })
-      };
+      return res.status(400).json({
+        error: "Message is required"
+      });
     }
 
     const systemPrompt = `
@@ -85,22 +78,16 @@ Rules:
 
     const data = await response.json();
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        reply:
-          data?.choices?.[0]?.message?.content ||
-          data?.error?.message ||
-          "AI is busy right now, please try again."
-      })
-    };
+    return res.status(200).json({
+      reply:
+        data?.choices?.[0]?.message?.content ||
+        data?.error?.message ||
+        "AI is busy right now, please try again."
+    });
 
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        error: error.message
-      })
-    };
+    return res.status(500).json({
+      error: error.message
+    });
   }
-};
+}
