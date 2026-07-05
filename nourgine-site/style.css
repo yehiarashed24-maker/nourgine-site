@@ -45,6 +45,7 @@ body{
 .container{
   width:100%;
   max-width:420px;
+  border-radius:28px;
   padding:30px 24px;
   -webkit-backdrop-filter:blur(20px);
   backdrop-filter:blur(20px);
@@ -103,7 +104,7 @@ body{
   gap:15px;
   font-size:17px;
   font-weight:500;
-  transition:0.3s;
+  transition:.35s ease;
   position:relative;
   overflow:hidden;
   background:rgba(255,255,255,0.05);
@@ -113,7 +114,7 @@ body{
 /* Hover */
 
 .card:hover{
-  transform:translateY(-4px) scale(1.02);
+  transform:translateY(-6px);
   box-shadow:0 0 25px rgba(168,85,247,0.5);
 }
 
@@ -149,19 +150,32 @@ body{
 .playstation:hover{
   background:#003791;
 }
+
 .paypal:hover{
-
     background:#0070ba;
-
-  
-
 }
+
+.donations{
+    border:1px solid rgba(212,160,23,.18);
+}
+
+.donations .fa-coffee{
+    color:#d4a017;
+    transition:.3s;
+}
+
+.donations:hover{
+    background:linear-gradient(135deg,#8b5a2b,#b87333,#d4a017);
+    color:#fff8e7;
+    box-shadow:0 0 25px rgba(180,120,40,.45);
+}
+
+.donations:hover .fa-coffee{
+    color:#fff;
+}
+
 .youtube:hover{
-
     background:#ff0000;
-
-
-
 }
 
 
